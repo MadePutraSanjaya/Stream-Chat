@@ -19,17 +19,6 @@ const config: Config = {
       xl: "1200px",
     },
     extend: {
-    colors: {
-      primary: "#E9EDEF",
-      secondary: "#8696A0"
-    },
-    backgroundColor: {
-      primary: "#111B21",
-      secondary: "#202C33"
-    },
-    backgroundImage:{
-      waBg: "url(/wa-bg.jpeg)"
-    },
     fontFamily: {
       poppins: [`var(--font-poppins)`, "sans-serif"],
     },
