@@ -3,13 +3,14 @@ import {Channel, Window, MessageList, MessageInput, ChannelHeader, Thread, Loadi
 
 interface ChatChannelProps {
     show: boolean;
+    hideChannelOnThread: boolean
 }
 
-const ChatChannel: React.FC<ChatChannelProps> = ({show}) => {
+const ChatChannel: React.FC<ChatChannelProps> = ({show, hideChannelOnThread}) => {
   return (
     <div className={`h-full w-full ${show? "block" : "hidden"}`}>
     <Channel>
-        <Window>
+        <Window hideOnThread={hideChannelOnThread}>
           <ChannelHeader />
           <MessageList />
           <MessageInput />

@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import MenuBar from './MenuBar'
-import { ChannelList } from 'stream-chat-react'
+import { ChannelList, ChannelPreviewUIComponentProps,  } from 'stream-chat-react'
 import {UserResource} from "@clerk/types"
 
 interface ChatSidebarProps {
     user: UserResource;
     show: boolean;
+    onClose: () => void
 }
 
-const ChatSidebar: React.FC<ChatSidebarProps> = ({user, show}) => {
+const ChatSidebar: React.FC<ChatSidebarProps> = ({user, show, onClose}) => {
+  const ChannelPreviewCustom = useCallback((props: ChannelPreviewUIComponentProps) => {
+    <ChannelPreviewMessanger 
+      {...props}
+      onSelect={() => {
+        props.setActiveChannel?.(props.channel, props.watchers);
+        onClose();
+      }}
+    />
+  }, [onClose])
   return (
     <div className={`w-full flex-col md:max-w-[360px] ${show ? "flex" : "hidden"}`}>
        <MenuBar />
@@ -28,6 +38,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({user, show}) => {
                 }
             }
         }}
+        Preview={ChannelPreviewCustom}
         />
     </div>
   )
