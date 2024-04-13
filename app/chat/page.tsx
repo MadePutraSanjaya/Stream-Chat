@@ -1,6 +1,6 @@
 "use client";
 import { UserButton, useUser } from '@clerk/nextjs'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {Chat, LoadingIndicator} from "stream-chat-react"
 import useInitializeChatClient from './useInitializeChatClient';
 import ChatSidebar from './ChatSidebar';
@@ -21,6 +21,10 @@ const ChatPage = () => {
     if (windowSize.width >= mdBreakpoint) setChatSideOpen(false)
   }, [windowSize.width])
 
+  const handleSidebarOnClose = useCallback(() => {
+    setChatSideOpen(false)
+  }, []) 
+
   if (!chatClient || !user) {
     return (
       <div className="h-screen flex justify-center items-center">
@@ -29,12 +33,10 @@ const ChatPage = () => {
     )
   }
 
-  const handleSidebarOnClose = () => {
-    
-  }
 
   return (
-    <div className='h-screen'>
+    <div className='h-screen bg-gray-100 xl:px-20 xl:py-8'>
+      <div className='max-w-[1600px] min-w-[350px] h-full shadow-sm m-auto flex-col'>
       <Chat client={chatClient}>
         <div className="flex justify-center border-b border-b-[#DBDDE1] p-3 md:hidden">
           <button onClick={() => setChatSideOpen(!chatSideOpen)}>
@@ -47,11 +49,12 @@ const ChatPage = () => {
             )}
           </button>
         </div>
-        <div className="flex flex-row h-full">
+        <div className="flex flex-row overflow-y-auto h-full">
         <ChatSidebar user={user} show={isLargeScreen || chatSideOpen} onClose={handleSidebarOnClose} />
         <ChatChannel show={isLargeScreen || !chatSideOpen} hideChannelOnThread={!isLargeScreen} />
         </div>
       </Chat>
+    </div>
     </div>
   )
 }
